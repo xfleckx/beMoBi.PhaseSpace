@@ -7,7 +7,6 @@ using System.Diagnostics;
 /// <summary>
 /// Deprecated class
 /// </summary>
-[Obsolete]
 public class PhaseSpaceController : MonoBehaviour {
 
     public int TrackerID;
