@@ -5,8 +5,8 @@ using UnityEditor;
 [CustomEditor(typeof(PhaseSpaceController))]
 public class ControllerInspector : Editor {
 
-	private Ping ping;
-	private float lastPingTime;
+    private Ping ping;
+    private float lastPingTime;
 
 	private float leftBorderMargin = 10;
 
@@ -27,23 +27,11 @@ public class ControllerInspector : Editor {
 		// draw a UI tip in scene view informing user how to draw & erase tiles
 		Handles.BeginGUI();
 
-		GUI.Label(new Rect(leftBorderMargin, 90, 100, 15), string.Format("Marker: {0}", controller.AvailableMarkers));
+		GUI.Label(new Rect(leftBorderMargin, 90, 100, 15), string.Format("Marker: {0}", controller.AvailableMarker));
 		GUI.Label(new Rect(leftBorderMargin, 75, 100, 15), string.Format("Position X: {0}", controller.MarkerPosition.x));
 		GUI.Label(new Rect(leftBorderMargin, 60, 100, 15), string.Format("Position Y: {0}", controller.MarkerPosition.y));
 		GUI.Label(new Rect(leftBorderMargin, 45, 100, 15), string.Format("Position Z: {0}", controller.MarkerPosition.z));
 
-		if (GUI.Button(new Rect(leftBorderMargin, 105, 75, 15), "Ping"))
-		{
-			ping = new Ping(controller.OWLHost);
-		}
-
-		GUI.Label(new Rect(leftBorderMargin, 120, 250, 15), string.Format("Ping: {0} ms", lastPingTime));
-
-		if (ping != null && ping.isDone)
-		{
-			lastPingTime = ping.time;
-			ping.DestroyPing();
-		}
 		//int offset = 105;
 		
 		//foreach (var item in controller.markerList)
@@ -58,7 +46,7 @@ public class ControllerInspector : Editor {
 		Handles.EndGUI();
 
 		int i = 0;
-		foreach (var item in controller.markerList)
+		foreach (var item in controller.Marker)
 		{
 			Handles.SphereCap(++i, item.position, Quaternion.identity, 0.1f); 
 		}

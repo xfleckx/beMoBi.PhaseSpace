@@ -9,32 +9,36 @@ public enum OWLUpdateStratgy { FixedUpdate, Update, OnPreRender }
 public delegate void OnPostOwlUpdate();
 public delegate void OnOwlConnected();
 
-public class OWLInterface : MonoBehaviour {
+public class OWLInterface : MonoBehaviour
+{
 
-	public OWLUpdateStratgy updateMoment = OWLUpdateStratgy.FixedUpdate;
+    public OWLUpdateStratgy updateMoment = OWLUpdateStratgy.FixedUpdate;
 
-	public string OWLHost = "192.168.1.81";
-	public bool isSlave = false;
-	public bool autoConnectOnStart = false;
-	//
-	public OWLWrapper OWL = new OWLWrapper();
-	private bool connected = false;
+    public string OWLHost;
+    public bool isSlave = false;
+    public bool autoConnectOnStart = false;
+    //
+    public OWLWrapper OWL = new OWLWrapper();
+    private bool connected = false;
 
-	private Stopwatch stopWatch = new Stopwatch();
+    public bool IsConnected { get { return connected; } }
 
-	public float OWLUpdateTook = 0f;
+    private Stopwatch stopWatch = new Stopwatch();
+
+    public float OWLUpdateTook = 0f;
 
 	public OnPostOwlUpdate OwlUpdateCallbacks;
 
 	public OnOwlConnected OwlConnectedCallbacks;
 
 	protected string message = String.Empty;
+
+    public bool showDeprecatedOnGUI = false;
 	
 	//
 	void Awake()
 	{
 		isSlave = PlayerPrefs.GetInt("owlInSlaveMode", 0) == 1;
-		OWLHost = PlayerPrefs.GetString("OWLHost");
 	}
 	 
 	// Use this for initialization
@@ -51,6 +55,8 @@ public class OWLInterface : MonoBehaviour {
 	{
 		if (OWL.Connect(OWLHost, isSlave)) { 
 			
+            UnityEngine.Debug.Log(string.Format("OWL connected to {0}", OWLHost), this);
+
 			if (!isSlave)
 			{
 				if (OwlConnectedCallbacks != null)
@@ -70,54 +76,62 @@ public class OWLInterface : MonoBehaviour {
 			}
 
 			// start streaming
-			OWL.Start(); 
-		}
+			OWL.Start();
+        }else
+        {
+            UnityEngine.Debug.LogWarning(string.Format("Connection to OWL Host {0} failed!", OWLHost), this);
+        }
 	}
 
 	public bool HasConfigurationAvaiable()
 	{
-
-
-
 		return false;
 	}
 
+    private void PerformOwlUpdate()
+    {
+        stopWatch.Start();
+
+        OWL.Update();
+
+        stopWatch.Stop();
+
+        OWLUpdateTook = stopWatch.ElapsedMilliseconds;
+
+        stopWatch.Reset();
+
+        if (OwlUpdateCallbacks != null)
+        {
+            OwlUpdateCallbacks.Invoke();
+        }
+    }
+
 	void FixedUpdate()
 	{
-		if (OWL.Connected() && updateMoment == OWLUpdateStratgy.FixedUpdate ) { 
-
-			stopWatch.Start();
-
-			OWL.Update();
-
-			stopWatch.Stop();
-
-			OWLUpdateTook = stopWatch.ElapsedMilliseconds;
-
-			stopWatch.Reset();
-
-			if (OwlUpdateCallbacks != null)
-			{
-				OwlUpdateCallbacks.Invoke();
-			}
+        if (OWL.Connected() && updateMoment == OWLUpdateStratgy.FixedUpdate)
+        {
+            PerformOwlUpdate();
 		}
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (OWL.Connected() && updateMoment == OWLUpdateStratgy.Update )
-			OWL.Update();
+        if (OWL.Connected() && updateMoment == OWLUpdateStratgy.Update)
+            PerformOwlUpdate();
 	}
 
 	void OnPreRender()
 	{
-		if (OWL.Connected() && updateMoment == OWLUpdateStratgy.OnPreRender )
-			OWL.Update();
+        if (OWL.Connected() && updateMoment == OWLUpdateStratgy.OnPreRender)
+            PerformOwlUpdate();
 	}
 
 	// need to be merged into the CustomInspector
 	void OnGUI()
 	{
+        if (!showDeprecatedOnGUI)
+            return;
+
 		GUILayout.BeginArea(new Rect(8, 8, Screen.width - 16, Screen.height / 4 + 4));
 		GUILayout.BeginHorizontal();
 		GUILayout.Label("Device", GUILayout.ExpandWidth(false));
