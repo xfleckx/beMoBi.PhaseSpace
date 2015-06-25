@@ -11,3 +11,4 @@ Actually a pre-Alpha idea of an benchmark for different Impulse (Phasespace Hard
 
 ## Dependencies
 To use the components you need access to the PhaseSpace API. Therefore, you need to get in contact with the Phasespace Support.
+**It`s recommended to copy the PhaseSpace Asset directory into your projects Asset folder before cloning the repository into that!**
