@@ -1,5 +1,5 @@
-# beMoBi.PhaseSpace
-A PhaseSpace motion capture system integration for the beMoBi Framework
+# BeMoBI.PhaseSpace
+A PhaseSpace - Impulse motion capture system integration for the BeMoBI Framework. It's based mainly on the example implementation provided by [PhaseSpace](http://phasespace.com/) but enhance the components through Editor extensions and Runtime components for Unity3D.
 
 This Asset consits of two main components.
 
