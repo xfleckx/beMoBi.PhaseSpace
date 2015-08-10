@@ -1,5 +1,5 @@
-# beMoBi.PhaseSpace
-A PhaseSpace motion capture system integration for the beMoBi Framework
+# BeMoBI.PhaseSpace
+A PhaseSpace - Impulse motion capture system integration for the BeMoBI Framework. It's based mainly on the example implementation provided by [PhaseSpace](http://phasespace.com/) but enhance the components through Editor extensions and Runtime components for Unity3D.
 
 This Asset consits of two main components.
 
@@ -11,3 +11,4 @@ Actually a pre-Alpha idea of an benchmark for different Impulse (Phasespace Hard
 
 ## Dependencies
 To use the components you need access to the PhaseSpace API. Therefore, you need to get in contact with the Phasespace Support.
+**It`s recommended to copy the PhaseSpace Asset directory into your projects Asset folder before cloning the repository into that!**
