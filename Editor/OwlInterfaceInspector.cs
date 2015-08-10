@@ -18,7 +18,21 @@ public class OwlInterfaceInspector : Editor
         instance = target as OWLInterface;
 
         base.OnInspectorGUI();
+        EditorGUILayout.BeginVertical();
+
         EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Connect")) 
+        {
+            instance.ConnectToOWLInstance();
+        }
+
+        if (GUILayout.Button("Disconnect"))
+        {
+            instance.DisconnectFromOWLInstance();
+        }
+        
+        EditorGUILayout.EndHorizontal();
         
         if (GUILayout.Button("Ping"))
         {
@@ -33,7 +47,7 @@ public class OwlInterfaceInspector : Editor
             ping.DestroyPing();
         }
 
-        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.EndVertical();
     }
 
 }

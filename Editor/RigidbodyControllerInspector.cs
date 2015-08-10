@@ -35,6 +35,9 @@ public class RigidbodyControllerInspector : Editor
         {
             var fileName = EditorUtility.OpenFilePanel("Open Rigidbody file", Environment.CurrentDirectory, "rb");
 
+            if (fileName == null || fileName == String.Empty)
+                return;
+
             var textAssetName = RigidBodyFileImporter.ImportFrom(fileName);
 
             controller.rigidBodyDefinition = textAssetName;

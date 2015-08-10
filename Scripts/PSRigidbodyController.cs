@@ -33,11 +33,6 @@ public class PSRigidbodyController : MonoBehaviour {
 		tracker.OwlUpdateCallbacks += UpdateRigidbodyTarget;
 	}
 
-	// Use this for initialization
-	void Start () {
-
-	}
-
 	void CreateRigidbodyTracker()
 	{
 		if (rigidBodyDefinition != null){ 
@@ -59,12 +54,13 @@ public class PSRigidbodyController : MonoBehaviour {
 
 		expectedRigidBody = rigids[rigidBodyTrackerID];
 
-		transform.position = expectedRigidBody.position;
+        if( expectedRigidBody.position != Vector3.zero)
+            transform.position = expectedRigidBody.position;
 		
 		if(useRigidBodyOrientation)
 			transform.rotation = expectedRigidBody.rotation;
 	}
-	// Update is called once per frame
+
 	void Update () {
 	
 	}

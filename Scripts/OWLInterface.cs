@@ -51,7 +51,7 @@ public class OWLInterface : MonoBehaviour
 		} 
 	} 
 
-	void ConnectToOWLInstance()
+	public void ConnectToOWLInstance()
 	{
 		if (OWL.Connect(OWLHost, isSlave)) { 
 			
@@ -77,11 +77,17 @@ public class OWLInterface : MonoBehaviour
 
 			// start streaming
 			OWL.Start();
+
         }else
         {
             UnityEngine.Debug.LogWarning(string.Format("Connection to OWL Host {0} failed!", OWLHost), this);
         }
 	}
+
+    public void DisconnectFromOWLInstance()
+    {
+        OWL.Disconnect();
+    }
 
 	public bool HasConfigurationAvaiable()
 	{
